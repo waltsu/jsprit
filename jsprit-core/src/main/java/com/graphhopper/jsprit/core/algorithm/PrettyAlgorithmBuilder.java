@@ -56,6 +56,7 @@ public class PrettyAlgorithmBuilder {
     private SolutionCostCalculator iniObjFunction;
 
     private boolean coreStuff = false;
+    private boolean timeWindowsHaveLatestEnd;
 
     public static PrettyAlgorithmBuilder newInstance(VehicleRoutingProblem vrp, VehicleFleetManager fleetManager, StateManager stateManager, ConstraintManager constraintManager) {
         return new PrettyAlgorithmBuilder(vrp, fleetManager, stateManager, constraintManager);
@@ -87,7 +88,7 @@ public class PrettyAlgorithmBuilder {
 
     public VehicleRoutingAlgorithm build() {
         if (coreStuff) {
-            constraintManager.addTimeWindowConstraint();
+            constraintManager.addTimeWindowConstraint(!timeWindowsHaveLatestEnd);
             constraintManager.addLoadConstraint();
             constraintManager.addSkillsConstraint();
             constraintManager.addConstraint(new SwitchNotFeasible(stateManager));
@@ -113,6 +114,7 @@ public class PrettyAlgorithmBuilder {
                 }
 
             });
+            twUpdater.setTimeWindowIsLatestStart(!timeWindowsHaveLatestEnd);
             stateManager.addStateUpdater(twUpdater);
             stateManager.updateSkillStates();
             stateManager.addStateUpdater(new UpdateEndLocationIfRouteIsOpen());
@@ -173,4 +175,7 @@ public class PrettyAlgorithmBuilder {
     }
 
 
+    public void setTimeWindowsHaveLatestEnd(boolean timeWindowsHaveLatestEnd) {
+        this.timeWindowsHaveLatestEnd = timeWindowsHaveLatestEnd;
+    }
 }

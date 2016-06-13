@@ -103,6 +103,15 @@ public class ConstraintManager implements HardActivityConstraint, HardRouteConst
         }
     }
 
+    public void addTimeWindowConstraint(boolean timeWindowIsLatestStart) {
+        if (!timeWindowConstraintsSet) {
+            VehicleDependentTimeWindowConstraints actLevelConstraint = new VehicleDependentTimeWindowConstraints(stateManager, vrp.getTransportCosts(), vrp.getActivityCosts());
+            actLevelConstraint.setTimeWindowIsLatestStart(timeWindowIsLatestStart);
+            addConstraint(actLevelConstraint, Priority.HIGH);
+            timeWindowConstraintsSet = true;
+        }
+    }
+
 
     public void addLoadConstraint() {
         if (!loadConstraintsSet) {

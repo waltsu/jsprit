@@ -99,6 +99,7 @@ public class Jsprit {
         RUIN_WORST_NOISE_PROB("worst.noise_prob"),
         FAST_REGRET("regret.fast"),
         MAX_TRANSPORT_COSTS("max_transport_costs"),
+        TIME_WINDOWS_LATEST_END("time_windows_latest_end"),
         CONSTRUCTION("construction");
 
         String paraName;
@@ -187,6 +188,7 @@ public class Jsprit {
             defaults.put(Parameter.VEHICLE_SWITCH.toString(), String.valueOf(true));
             defaults.put(Parameter.FAST_REGRET, String.valueOf(false));
             defaults.put(Parameter.CONSTRUCTION.toString(), Construction.REGRET_INSERTION.toString());
+            defaults.put(Parameter.TIME_WINDOWS_LATEST_END, String.valueOf(false));
             return defaults;
         }
 
@@ -535,6 +537,7 @@ public class Jsprit {
 
         PrettyAlgorithmBuilder prettyBuilder = PrettyAlgorithmBuilder.newInstance(vrp, fm, stateManager, constraintManager);
         prettyBuilder.setRandom(random);
+        prettyBuilder.setTimeWindowsHaveLatestEnd(toBoolean(getProperty(Parameter.TIME_WINDOWS_LATEST_END.toString())));
         if (addCoreConstraints) {
             prettyBuilder.addCoreStateAndConstraintStuff();
         }
