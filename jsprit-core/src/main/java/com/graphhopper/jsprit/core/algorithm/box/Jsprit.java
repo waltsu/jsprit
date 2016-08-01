@@ -627,7 +627,7 @@ public class Jsprit {
 
             });
         }
-        if (es != null) {
+        else if (es != null) {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
                     if (!es.isShutdown()) {
